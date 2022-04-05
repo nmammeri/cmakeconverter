@@ -503,6 +503,11 @@ def make_cmake_literal(context, input_str):
 def make_cmake_configuration(context, sln_configuration):
     """ Tries to make cmake configuration name from sln_configuration """
     sln_conf_arch = sln_configuration.split('|')
+
+    # NM: MY FIX for not working with UWP api platform conditions
+    if len(sln_conf_arch) == 1:
+       sln_conf_arch.append(None)
+       
     genex_invalid_regex = r'[^A-Za-z0-9_]'
     sln_conf_arch[0] = escape_string(context, genex_invalid_regex, sln_conf_arch[0])
     return "{}|{}".format(*sln_conf_arch)
